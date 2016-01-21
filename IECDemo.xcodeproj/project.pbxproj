@@ -18,10 +18,10 @@
 		FA2886531C50A80E00242FEC /* config.client in Resources */ = {isa = PBXBuildFile; fileRef = FA28864C1C50A80E00242FEC /* config.client */; };
 		FA2886541C50A80E00242FEC /* iceClient.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA28864D1C50A80E00242FEC /* iceClient.plist */; };
 		FA2886551C50A80E00242FEC /* IceClientUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FA28864F1C50A80E00242FEC /* IceClientUtil.m */; };
-		FA2886561C50A80E00242FEC /* Common.ice in Sources */ = {isa = PBXBuildFile; fileRef = FA2886511C50A80E00242FEC /* Common.ice */; };
-		FA2886571C50A80E00242FEC /* SystemManageService.ice in Sources */ = {isa = PBXBuildFile; fileRef = FA2886521C50A80E00242FEC /* SystemManageService.ice */; };
 		FA2886591C50A86000242FEC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2886581C50A86000242FEC /* CFNetwork.framework */; };
 		FA28865B1C50A86500242FEC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA28865A1C50A86500242FEC /* Security.framework */; };
+		FA62BD8D1C50B7970068ACB9 /* Common.ice in Sources */ = {isa = PBXBuildFile; fileRef = FA62BD8B1C50B7970068ACB9 /* Common.ice */; };
+		FA62BD8E1C50B7970068ACB9 /* SystemManageService.ice in Sources */ = {isa = PBXBuildFile; fileRef = FA62BD8C1C50B7970068ACB9 /* SystemManageService.ice */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,10 +62,10 @@
 		FA28864D1C50A80E00242FEC /* iceClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = iceClient.plist; sourceTree = "<group>"; };
 		FA28864E1C50A80E00242FEC /* IceClientUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IceClientUtil.h; sourceTree = "<group>"; };
 		FA28864F1C50A80E00242FEC /* IceClientUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IceClientUtil.m; sourceTree = "<group>"; };
-		FA2886511C50A80E00242FEC /* Common.ice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.slice; path = Common.ice; sourceTree = "<group>"; };
-		FA2886521C50A80E00242FEC /* SystemManageService.ice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.slice; path = SystemManageService.ice; sourceTree = "<group>"; };
 		FA2886581C50A86000242FEC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FA28865A1C50A86500242FEC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FA62BD8B1C50B7970068ACB9 /* Common.ice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.slice; path = Common.ice; sourceTree = "<group>"; };
+		FA62BD8C1C50B7970068ACB9 /* SystemManageService.ice */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.slice; path = SystemManageService.ice; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,8 +175,8 @@
 		FA2886501C50A80E00242FEC /* Slice */ = {
 			isa = PBXGroup;
 			children = (
-				FA2886511C50A80E00242FEC /* Common.ice */,
-				FA2886521C50A80E00242FEC /* SystemManageService.ice */,
+				FA62BD8B1C50B7970068ACB9 /* Common.ice */,
+				FA62BD8C1C50B7970068ACB9 /* SystemManageService.ice */,
 			);
 			path = Slice;
 			sourceTree = "<group>";
@@ -316,9 +316,9 @@
 				FA2886551C50A80E00242FEC /* IceClientUtil.m in Sources */,
 				FA2886201C50A7AB00242FEC /* ViewController.m in Sources */,
 				FA28861D1C50A7AB00242FEC /* AppDelegate.m in Sources */,
-				FA2886561C50A80E00242FEC /* Common.ice in Sources */,
+				FA62BD8D1C50B7970068ACB9 /* Common.ice in Sources */,
 				FA28861A1C50A7AB00242FEC /* main.m in Sources */,
-				FA2886571C50A80E00242FEC /* SystemManageService.ice in Sources */,
+				FA62BD8E1C50B7970068ACB9 /* SystemManageService.ice in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,11 +458,14 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "/usr/local/lib/IceTouch/ObjC/$(PLATFORM_NAME).sdk";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = /Users/alex/GitHub/IECDemo/IECDemo/Slice/;
 				INFOPLIST_FILE = IECDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = Alex.IECDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SLICE_INCLUDE_PATH = "";
 			};
 			name = Debug;
 		};
@@ -471,11 +474,14 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "/usr/local/lib/IceTouch/ObjC/$(PLATFORM_NAME).sdk";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = /Users/alex/GitHub/IECDemo/IECDemo/Slice/;
 				INFOPLIST_FILE = IECDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = Alex.IECDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SLICE_INCLUDE_PATH = "";
 			};
 			name = Release;
 		};
@@ -546,6 +552,7 @@
 				FA2886441C50A7AC00242FEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA2886451C50A7AC00242FEC /* Build configuration list for PBXNativeTarget "IECDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -554,6 +561,7 @@
 				FA2886471C50A7AC00242FEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA2886481C50A7AC00242FEC /* Build configuration list for PBXNativeTarget "IECDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -562,6 +570,7 @@
 				FA28864A1C50A7AC00242FEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

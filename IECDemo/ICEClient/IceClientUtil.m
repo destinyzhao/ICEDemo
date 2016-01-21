@@ -10,10 +10,10 @@
 
 const static NSString * locatorKey = @"Ice.Locator";
 static NSString * iceLocatorValue;
-static id<ICECommunicator> communicator;
+static id<ICECommunicator> communicator;  //Ice连接器
 static NSMutableDictionary * cls2PrxMap;
 static UInt64 lastAccessTimestamp;
-static int idleTimeOutSeconds;
+static int idleTimeOutSeconds;  // 超时
 static NSThread *monitorThread;
 static BOOL stoped;
 
@@ -23,6 +23,11 @@ static BOOL stoped;
 
 @implementation IceClientUtil
 
+/**
+ *  初始化ICE连接器
+ *
+ *  @return ICECommunicator
+ */
 + (id<ICECommunicator>) getICECommunicator{
     if (communicator == nil) {
         @synchronized(@"communicator"){
@@ -33,6 +38,7 @@ static BOOL stoped;
                 idleTimeOutSeconds = [[plist objectForKey:@"idleTimeOutSeconds"] intValue];
                 NSLog(@"Ice client`s locator is %@ proxy cache time out seconds :%d",iceLocatorValue,idleTimeOutSeconds);
             }
+            
             ICEInitializationData* initData = [ICEInitializationData initializationData];
             initData.properties = [ICEUtil createProperties];
             [initData.properties setProperty:@"Ice.Default.Locator" value:iceLocatorValue];
@@ -49,6 +55,11 @@ static BOOL stoped;
     return communicator;
 }
 
+/**
+ *  释放ICE连接器
+ *
+ *  @param removeServiceCache
+ */
 + (void) closeCommunicator:(BOOL)removeServiceCache{
     @synchronized(@"communicator"){
         if(communicator != nil){
@@ -68,8 +79,11 @@ static BOOL stoped;
 +(void) safeShutdown{
     @try{
         [communicator shutdown];
-    }@catch(ICEException* ex){
-    }@finally{
+    }
+    @catch(ICEException* ex)
+    {
+    }
+    @finally{
         [communicator destroy];
         communicator = nil;
     }
@@ -81,7 +95,16 @@ static BOOL stoped;
     });
 }
 
+/**
+ *  获取服务代理实例
+ *
+ *  @param serviceName
+ *  @param serviceCls
+ *
+ *  @return ICEObjectPrx
+ */
 + (id<ICEObjectPrx>) getServicePrx:(NSString*)serviceName class:(Class)serviceCls{
+    
     id<ICEObjectPrx> proxy = [cls2PrxMap objectForKey:serviceName];
     if(proxy != nil){
         lastAccessTimestamp = [[NSDate date] timeIntervalSince1970]*1000;
@@ -93,13 +116,23 @@ static BOOL stoped;
     return proxy;
 }
 
+/**
+ *  创建ICE连接器
+ *
+ *  @param c           ICECommunicator
+ *  @param serviceName serviceName
+ *  @param serviceCls  服务代理类
+ *
+ *  @return <#return value description#>
+ */
 + (id<ICEObjectPrx>) createIceProxy:(id<ICECommunicator>)c serviceName:(NSString*)serviceName class:(Class)serviceCls {
     id<ICEObjectPrx> proxy = nil;
     @try{
         ICEObjectPrx* base = [communicator stringToProxy:serviceName];
-        base = [base ice_invocationTimeout:5000];
+        base = [base ice_invocationTimeout:idleTimeOutSeconds];
         //SEL selector = NSSelectorFromString(@"checkedCast:");
-        proxy = [serviceCls performSelector:@selector(checkedCast:) withObject:base];
+        //proxy = [serviceCls performSelector:@selector(checkedCast:) withObject:base];
+        proxy = [serviceCls checkedCast:base];
         return proxy;
     } @catch(ICEEndpointParseException* ex) {
         return (ICEObjectPrx*)ex;
